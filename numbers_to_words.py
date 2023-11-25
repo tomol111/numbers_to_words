@@ -82,19 +82,26 @@ GROUPS_EXTRAS: Final[tuple[GrammaticalCases | None, ...]] = (
 
 
 def convert_number(number: int, unit: GrammaticalCases | None = None) -> str:
+    return " ".join(convert_number_to_words(number, unit))
+
+
+def convert_number_to_words(
+    number: int, unit: GrammaticalCases | None = None
+) -> list[str]:
+    words: list[str] = []
+
     if number == 0:
         if unit:
-            return f"{NUMBERS_DICT[0]} {unit.genitive_plural}"
-        return NUMBERS_DICT[0]
+            return [NUMBERS_DICT[0], unit.genitive_plural]
+        return [NUMBERS_DICT[0]]
 
     if number == 1:
         if unit:
-            return f"{NUMBERS_DICT[1]} {unit.nominative_singular}"
-        return NUMBERS_DICT[1]
+            return [NUMBERS_DICT[1], unit.nominative_singular]
+        return [NUMBERS_DICT[1]]
 
     groups = [disassemble_group(group) for group in split_to_groups(number)]
 
-    words: list[str] = []
     for group, extra in zip(groups, GROUPS_EXTRAS[-len(groups):]):
         if group:
             words.extend(
@@ -107,7 +114,7 @@ def convert_number(number: int, unit: GrammaticalCases | None = None) -> str:
         else:
             words.append(unit.genitive_plural)
 
-    return " ".join(words)
+    return words
 
 
 def generate_words_for_group(

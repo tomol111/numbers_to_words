@@ -142,15 +142,13 @@ def disassemble_group(group: int) -> list[int]:
     if (hundreds := group - tail) != 0:
         elements.append(hundreds)
 
-    if tail == 0:
-        return elements
-
     if 1 <= tail <= 20:
         elements.append(tail)
     else:
         units = tail % 10
         tens = tail - units
-        elements.append(tens)
+        if tens != 0:
+            elements.append(tens)
         if units != 0:
             elements.append(units)
     return elements

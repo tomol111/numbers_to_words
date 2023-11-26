@@ -77,7 +77,7 @@ GROUPS_EXTRAS: Final[tuple[GrammaticalCases | None, ...]] = (
     GrammaticalCases("miliard", "miliardy", "miliardów"),
     GrammaticalCases("milion", "miliony", "milionów"),
     GrammaticalCases("tysiąc", "tysiące", "tysięcy"),
-    None
+    None  # unity group
 )
 
 
@@ -91,22 +91,18 @@ def convert_number_to_words(
     words: list[str] = []
 
     if number == 0:
-        if unit:
-            return [NUMBERS_DICT[0], unit.genitive_plural]
-        return [NUMBERS_DICT[0]]
-
-    groups = [disassemble_group(group) for group in split_to_groups(number)]
+        groups = [[0]]
+    else:
+        groups = [disassemble_group(group) for group in split_to_groups(number)]
 
     for group, extra in zip(groups, GROUPS_EXTRAS[-len(groups):]):
         if group:
-            words.extend(
-                generate_words_for_group(group, extra)
-            )
+            words.extend(generate_words_for_group(group, extra))
 
     if unit:
         if number == 1:
             words.append(unit.nominative_singular)
-        elif group and 2 <= group[-1] <= 4:
+        elif (unity_group := groups[-1]) and 2 <= unity_group[-1] <= 4:
             words.append(unit.nominative_plural)
         else:
             words.append(unit.genitive_plural)

@@ -95,11 +95,6 @@ def convert_number_to_words(
             return [NUMBERS_DICT[0], unit.genitive_plural]
         return [NUMBERS_DICT[0]]
 
-    if number == 1:
-        if unit:
-            return [NUMBERS_DICT[1], unit.nominative_singular]
-        return [NUMBERS_DICT[1]]
-
     groups = [disassemble_group(group) for group in split_to_groups(number)]
 
     for group, extra in zip(groups, GROUPS_EXTRAS[-len(groups):]):
@@ -109,7 +104,9 @@ def convert_number_to_words(
             )
 
     if unit:
-        if 2 <= groups[-1][-1] <= 4:
+        if number == 1:
+            words.append(unit.nominative_singular)
+        elif 2 <= group[-1] <= 4:
             words.append(unit.nominative_plural)
         else:
             words.append(unit.genitive_plural)

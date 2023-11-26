@@ -106,7 +106,7 @@ def convert_number_to_words(
     if unit:
         if number == 1:
             words.append(unit.nominative_singular)
-        elif 2 <= group[-1] <= 4:
+        elif group and 2 <= group[-1] <= 4:
             words.append(unit.nominative_plural)
         else:
             words.append(unit.genitive_plural)

@@ -24,6 +24,7 @@ def test_should_convert_number_to_text(number, text):
     (3, "trzy metry"),
     (5, "pięć metrów"),
     (12, "dwanaście metrów"),
+    (1_000, "tysiąc metrów"),
     (1_001, "tysiąc jeden metrów"),
     (35_302, "trzydzieści pięć tysięcy trzysta dwa metry"),
 ])

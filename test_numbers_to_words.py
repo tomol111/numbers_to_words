@@ -74,6 +74,7 @@ def test_should_split_number_to_groups(number, elements):
 
 
 @pytest.mark.parametrize("number, elements", [
+    (0, []),
     (2, [2]),
     (30, [30]),
     (36, [30, 6]),
@@ -84,5 +85,5 @@ def test_should_split_number_to_groups(number, elements):
     (853, [800, 50, 3]),
     (212, [200, 12]),
 ])
-def test_should_disasemble_group(number, elements):
+def test_should_disassemble_group(number, elements):
     assert disassemble_group(number) == elements
